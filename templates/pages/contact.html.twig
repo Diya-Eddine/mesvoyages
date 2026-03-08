@@ -1,1 +1,25 @@
-{# empty Twig template #}
+{% extends "basefront.html.twig" %}
+
+{% block body %}
+<h2>Contactez-moi</h2>
+
+{% if sent %}
+    <div class="alert alert-success">Votre message a bien été envoyé !</div>
+{% endif %}
+
+<form method="post">
+    <div class="mb-3">
+        <label class="form-label">Nom</label>
+        <input type="text" name="nom" class="form-control" required>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input type="email" name="email" class="form-control" required>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Message</label>
+        <textarea name="message" class="form-control" rows="5" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Envoyer</button>
+</form>
+{% endblock %}
