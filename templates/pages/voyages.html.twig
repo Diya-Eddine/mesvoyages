@@ -1,5 +1,29 @@
 {% extends "basefront.html.twig" %}
 
 {% block body %}
-<h1>Page contact</h1>
+<h2>Liste des voyages</h2>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Ville</th>
+            <th>Pays</th>
+            <th>Note</th>
+            <th>Date</th>
+            <th>Détail</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for visite in visites %}
+        <tr>
+            <td>{{ visite.ville }}</td>
+            <td>{{ visite.pays }}</td>
+            <td>{{ visite.note }}/20</td>
+            <td>{{ visite.date|date('d/m/Y') }}</td>
+            <td><a href="{{ path('detail_voyage', {id: visite.id}) }}" class="btn btn-sm btn-primary">Voir</a></td>
+        </tr>
+        {% else %}
+        <tr><td colspan="5">Aucun voyage pour l'instant</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}

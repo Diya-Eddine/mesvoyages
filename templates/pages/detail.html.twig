@@ -1,0 +1,18 @@
+{% extends "basefront.html.twig" %}
+
+{% block body %}
+<h2>{{ visite.ville }} - {{ visite.pays }}</h2>
+<table class="table">
+    <tr><th>Note</th><td>{{ visite.note }}/20</td></tr>
+    <tr><th>Date</th><td>{{ visite.date|date('d/m/Y') }}</td></tr>
+    <tr><th>Température min</th><td>{{ visite.tempMin }}°C</td></tr>
+    <tr><th>Température max</th><td>{{ visite.tempMax }}°C</td></tr>
+    <tr><th>Environnements</th><td>
+        {% for env in visite.environnements %}
+            {{ env.nom }}{% if not loop.last %}, {% endif %}
+        {% endfor %}
+    </td></tr>
+    <tr><th>Avis</th><td>{{ visite.avis }}</td></tr>
+</table>
+<a href="{{ path('voyages') }}" class="btn btn-secondary">Retour à la liste</a>
+{% endblock %}

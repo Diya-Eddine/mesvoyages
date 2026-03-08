@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Visite{% endblock %}
+
+{% block body %}
+    <h1>Visite</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ visite.id }}</td>
+            </tr>
+            <tr>
+                <th>Ville</th>
+                <td>{{ visite.ville }}</td>
+            </tr>
+            <tr>
+                <th>Pays</th>
+                <td>{{ visite.pays }}</td>
+            </tr>
+            <tr>
+                <th>Note</th>
+                <td>{{ visite.note }}</td>
+            </tr>
+            <tr>
+                <th>TempMIN</th>
+                <td>{{ visite.tempMIN }}</td>
+            </tr>
+            <tr>
+                <th>TempMax</th>
+                <td>{{ visite.tempMax }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ visite.date ? visite.date|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Avis</th>
+                <td>{{ visite.avis }}</td>
+            </tr>
+            <tr>
+                <th>Photo</th>
+                <td>{{ visite.photo }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_admin_visite_index') }}">back to list</a>
+
+    <a href="{{ path('app_admin_visite_edit', {'id': visite.id}) }}">edit</a>
+
+    {{ include('admin_visite/_delete_form.html.twig') }}
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Environnement{% endblock %}
+
+{% block body %}
+    <h1>Edit Environnement</h1>
+
+    {{ include('admin_environnement/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_admin_environnement_index') }}">back to list</a>
+
+    {{ include('admin_environnement/_delete_form.html.twig') }}
+{% endblock %}
