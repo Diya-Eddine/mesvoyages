@@ -35,15 +35,6 @@ final class AdminVisiteController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $photoFile = $form->get('photo')->getData();
-            if ($photoFile) {
-                $newFilename = uniqid() . '.' . $photoFile->guessExtension();
-                $photoFile->move(
-                    $this->getParameter('kernel.project_dir') . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR . 'photos',
-                    $newFilename
-                );
-                $visite->setPhoto($newFilename);
-            }
             $this->repository->add($visite);
             return $this->redirectToRoute('app_admin_visite_index');
         }
@@ -77,15 +68,6 @@ final class AdminVisiteController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $photoFile = $form->get('photo')->getData();
-            if ($photoFile) {
-                $newFilename = uniqid() . '.' . $photoFile->guessExtension();
-                $photoFile->move(
-                    $this->getParameter('kernel.project_dir') . '/public/uploads/photos',
-                    $newFilename
-                );
-                $visite->setPhoto($newFilename);
-            }
             $this->repository->add($visite);
             return $this->redirectToRoute('app_admin_visite_index');
         }

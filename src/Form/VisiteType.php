@@ -5,12 +5,11 @@ use App\Entity\Visite;
 use App\Entity\Environnement;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\File;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 use DateTime;
 
 class VisiteType extends AbstractType
@@ -36,17 +35,9 @@ class VisiteType extends AbstractType
             ->add('tempmax', null, [
                 'label' => 't° max'
             ])
-            ->add('photo', FileType::class, [
-                'label' => 'Photo (jpg, png)',
-                'mapped' => false,
+            ->add('imageFile', VichImageType::class, [
+                'label' => 'sélection image',
                 'required' => false,
-                'constraints' => [
-                    new File([
-                        'maxSize' => '2048k',
-                        'mimeTypes' => ['image/jpeg', 'image/png'],
-                        'mimeTypesMessage' => 'Veuillez uploader une image JPG ou PNG',
-                    ])
-                ],
             ])
             ->add('environnements', EntityType::class, [
                 'class' => Environnement::class,
