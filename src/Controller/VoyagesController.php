@@ -4,21 +4,50 @@ namespace App\Controller;
 use App\Repository\VisiteRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-class VoyagesController extends AbstractController {
+class VoyagesController extends AbstractController
+{
+    private $repository;
+
+    public function __construct(VisiteRepository $repository)
+    {
+        $this->repository = $repository;
+    }
 
     #[Route('/voyages', name: 'voyages')]
-    public function index(VisiteRepository $repo): Response {
-        $visites = $repo->findAll();
+    public function index(): Response
+    {
+        $visites = $this->repository->findAllOrderBy('datecreation', 'DESC');
         return $this->render("pages/voyages.html.twig", [
             'visites' => $visites
         ]);
     }
 
-    #[Route('/voyage/{id}', name: 'detail_voyage')]
-    public function detail(int $id, VisiteRepository $repo): Response {
-        $visite = $repo->find($id);
+    #[Route('/voyages/tri/{champ}/{ordre}', name: 'voyages.sort')]
+    public function sort(string $champ, string $ordre): Response
+    {
+        $visites = $this->repository->findAllOrderBy($champ, $ordre);
+        return $this->render("pages/voyages.html.twig", [
+            'visites' => $visites
+        ]);
+    }
+
+    #[Route('/voyages/recherche/{champ}', name: 'voyages.findallequal')]
+    public function findAllEqual(string $champ, Request $request): Response
+    {
+        $valeur = $request->get("recherche");
+        $visites = $this->repository->findByEqualValue($champ, $valeur);
+        return $this->render("pages/voyages.html.twig", [
+            'visites' => $visites
+        ]);
+    }
+
+    #[Route('/voyages/voyage/{id}', name: 'voyages.showone')]
+    public function showOne(int $id): Response
+    {
+        $visite = $this->repository->find($id);
         return $this->render("pages/detail.html.twig", [
             'visite' => $visite
         ]);

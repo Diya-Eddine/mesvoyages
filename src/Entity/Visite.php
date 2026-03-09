@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Entity;
 
 use App\Repository\VisiteRepository;
@@ -16,23 +15,17 @@ class Visite
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 50)]
     private ?string $ville = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 50)]
     private ?string $pays = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTime $datecreation = null;
+
+    #[ORM\Column(nullable: true)]
     private ?int $note = null;
-
-    #[ORM\Column]
-    private ?int $tempMIN = null;
-
-    #[ORM\Column]
-    private ?int $tempMax = null;
-
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTime $date = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $avis = null;
@@ -40,10 +33,16 @@ class Visite
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $photo = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $tempmin = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $tempmax = null;
+
     /**
-     * @var Collection<int, environnement>
+     * @var Collection<int, Environnement>
      */
-    #[ORM\ManyToMany(targetEntity: environnement::class)]
+    #[ORM\ManyToMany(targetEntity: Environnement::class)]
     private Collection $environnements;
 
     public function __construct()
@@ -64,7 +63,6 @@ class Visite
     public function setVille(string $ville): static
     {
         $this->ville = $ville;
-
         return $this;
     }
 
@@ -76,8 +74,27 @@ class Visite
     public function setPays(string $pays): static
     {
         $this->pays = $pays;
-
         return $this;
+    }
+
+    public function getDatecreation(): ?\DateTime
+    {
+        return $this->datecreation;
+    }
+
+    public function setDatecreation(?\DateTime $datecreation): static
+    {
+        $this->datecreation = $datecreation;
+        return $this;
+    }
+
+    public function getDatecreationString(): string
+    {
+        if ($this->datecreation == null) {
+            return "";
+        } else {
+            return $this->datecreation->format('d/m/Y');
+        }
     }
 
     public function getNote(): ?int
@@ -85,46 +102,9 @@ class Visite
         return $this->note;
     }
 
-    public function setNote(int $note): static
+    public function setNote(?int $note): static
     {
         $this->note = $note;
-
-        return $this;
-    }
-
-    public function getTempMIN(): ?int
-    {
-        return $this->tempMIN;
-    }
-
-    public function setTempMIN(int $tempMIN): static
-    {
-        $this->tempMIN = $tempMIN;
-
-        return $this;
-    }
-
-    public function getTempMax(): ?int
-    {
-        return $this->tempMax;
-    }
-
-    public function setTempMax(int $tempMax): static
-    {
-        $this->tempMax = $tempMax;
-
-        return $this;
-    }
-
-    public function getDate(): ?\DateTime
-    {
-        return $this->date;
-    }
-
-    public function setDate(\DateTime $date): static
-    {
-        $this->date = $date;
-
         return $this;
     }
 
@@ -136,7 +116,6 @@ class Visite
     public function setAvis(?string $avis): static
     {
         $this->avis = $avis;
-
         return $this;
     }
 
@@ -148,31 +127,50 @@ class Visite
     public function setPhoto(?string $photo): static
     {
         $this->photo = $photo;
+        return $this;
+    }
 
+    public function getTempmin(): ?int
+    {
+        return $this->tempmin;
+    }
+
+    public function setTempmin(?int $tempmin): static
+    {
+        $this->tempmin = $tempmin;
+        return $this;
+    }
+
+    public function getTempmax(): ?int
+    {
+        return $this->tempmax;
+    }
+
+    public function setTempmax(?int $tempmax): static
+    {
+        $this->tempmax = $tempmax;
         return $this;
     }
 
     /**
-     * @return Collection<int, environnement>
+     * @return Collection<int, Environnement>
      */
     public function getEnvironnements(): Collection
     {
         return $this->environnements;
     }
 
-    public function addEnvironnement(environnement $environnement): static
+    public function addEnvironnement(Environnement $environnement): static
     {
         if (!$this->environnements->contains($environnement)) {
             $this->environnements->add($environnement);
         }
-
         return $this;
     }
 
-    public function removeEnvironnement(environnement $environnement): static
+    public function removeEnvironnement(Environnement $environnement): static
     {
         $this->environnements->removeElement($environnement);
-
         return $this;
     }
 }

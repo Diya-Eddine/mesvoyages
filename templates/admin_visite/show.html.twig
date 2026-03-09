@@ -1,10 +1,7 @@
 {% extends 'base.html.twig' %}
-
 {% block title %}Visite{% endblock %}
-
 {% block body %}
     <h1>Visite</h1>
-
     <table class="table">
         <tbody>
             <tr>
@@ -24,16 +21,16 @@
                 <td>{{ visite.note }}</td>
             </tr>
             <tr>
-                <th>TempMIN</th>
-                <td>{{ visite.tempMIN }}</td>
+                <th>Temp MIN</th>
+                <td>{{ visite.tempmin }}</td>
             </tr>
             <tr>
-                <th>TempMax</th>
-                <td>{{ visite.tempMax }}</td>
+                <th>Temp MAX</th>
+                <td>{{ visite.tempmax }}</td>
             </tr>
             <tr>
                 <th>Date</th>
-                <td>{{ visite.date ? visite.date|date('Y-m-d') : '' }}</td>
+                <td>{{ visite.datecreationstring }}</td>
             </tr>
             <tr>
                 <th>Avis</th>
@@ -45,10 +42,7 @@
             </tr>
         </tbody>
     </table>
-
     <a href="{{ path('app_admin_visite_index') }}">back to list</a>
-
     <a href="{{ path('app_admin_visite_edit', {'id': visite.id}) }}">edit</a>
-
     {{ include('admin_visite/_delete_form.html.twig') }}
 {% endblock %}

@@ -1,10 +1,7 @@
 {% extends 'base.html.twig' %}
-
 {% block title %}Visite index{% endblock %}
-
 {% block body %}
     <h1>Visite index</h1>
-
     <table class="table">
         <thead>
             <tr>
@@ -12,12 +9,12 @@
                 <th>Ville</th>
                 <th>Pays</th>
                 <th>Note</th>
-                <th>TempMIN</th>
-                <th>TempMax</th>
+                <th>Temp MIN</th>
+                <th>Temp MAX</th>
                 <th>Date</th>
                 <th>Avis</th>
                 <th>Photo</th>
-                <th>actions</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -27,9 +24,9 @@
                 <td>{{ visite.ville }}</td>
                 <td>{{ visite.pays }}</td>
                 <td>{{ visite.note }}</td>
-                <td>{{ visite.tempMIN }}</td>
-                <td>{{ visite.tempMax }}</td>
-                <td>{{ visite.date ? visite.date|date('Y-m-d') : '' }}</td>
+                <td>{{ visite.tempmin }}</td>
+                <td>{{ visite.tempmax }}</td>
+                <td>{{ visite.datecreationstring }}</td>
                 <td>{{ visite.avis }}</td>
                 <td>{{ visite.photo }}</td>
                 <td>
@@ -44,6 +41,5 @@
         {% endfor %}
         </tbody>
     </table>
-
     <a href="{{ path('app_admin_visite_new') }}">Create new</a>
 {% endblock %}
