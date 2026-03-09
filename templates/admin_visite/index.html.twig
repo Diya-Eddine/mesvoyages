@@ -1,45 +1,44 @@
 {% extends 'base.html.twig' %}
-{% block title %}Visite index{% endblock %}
+{% block title %}Gestion des voyages{% endblock %}
 {% block body %}
-    <h1>Visite index</h1>
-    <table class="table">
+    <h1>Gestion des voyages</h1>
+
+    <p class="text-end">
+        <a href="{{ path('app_admin_visite_new') }}" class="btn btn-primary">
+            Ajouter une nouvelle visite
+        </a>
+    </p>
+
+    <table class="table table-striped">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Ville</th>
                 <th>Pays</th>
-                <th>Note</th>
-                <th>Temp MIN</th>
-                <th>Temp MAX</th>
                 <th>Date</th>
-                <th>Avis</th>
-                <th>Photo</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
         {% for visite in visites %}
             <tr>
-                <td>{{ visite.id }}</td>
-                <td>{{ visite.ville }}</td>
-                <td>{{ visite.pays }}</td>
-                <td>{{ visite.note }}</td>
-                <td>{{ visite.tempmin }}</td>
-                <td>{{ visite.tempmax }}</td>
-                <td>{{ visite.datecreationstring }}</td>
-                <td>{{ visite.avis }}</td>
-                <td>{{ visite.photo }}</td>
                 <td>
-                    <a href="{{ path('app_admin_visite_show', {'id': visite.id}) }}">show</a>
-                    <a href="{{ path('app_admin_visite_edit', {'id': visite.id}) }}">edit</a>
+                    <h5 class="text-primary">{{ visite.ville }}</h5>
+                </td>
+                <td>{{ visite.pays }}</td>
+                <td>{{ visite.datecreationstring }}</td>
+                <td>
+                    <a href="{{ path('app_admin_visite_edit', {'id': visite.id}) }}" 
+                       class="btn btn-secondary">Editer</a>
+                    <a href="{{ path('app_admin_visite_delete', {'id': visite.id}) }}" 
+                       class="btn btn-danger"
+                       onclick="return confirm('Etes-vous sûr de vouloir supprimer {{ visite.ville }} ?')">Supprimer</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="10">no records found</td>
+                <td colspan="4">Aucune visite trouvée</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
-    <a href="{{ path('app_admin_visite_new') }}">Create new</a>
 {% endblock %}
