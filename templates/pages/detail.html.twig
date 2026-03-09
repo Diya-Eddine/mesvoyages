@@ -13,6 +13,14 @@
         {% endfor %}
     </td></tr>
     <tr><th>Avis</th><td>{{ visite.avis }}</td></tr>
+    {% if visite.photo %}
+    <tr>
+        <th>Photo</th>
+        <td>
+            <img src="http://localhost/mesvoyages/public/uploads/photos/{{ visite.photo }}" style="max-width:300px">
+        </td>
+    </tr>
+    {% endif %}
 </table>
 <a href="{{ path('voyages') }}" class="btn btn-secondary">Retour à la liste</a>
 {% endblock %}

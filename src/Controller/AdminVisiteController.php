@@ -23,24 +23,32 @@ final class AdminVisiteController extends AbstractController
     }
 
     #[Route('/new', name: 'app_admin_visite_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
-        $visite = new Visite();
-        $form = $this->createForm(VisiteType::class, $visite);
-        $form->handleRequest($request);
+public function new(Request $request, EntityManagerInterface $entityManager): Response {
+    $visite = new Visite();
+    $form = $this->createForm(VisiteType::class, $visite);
+    $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($visite);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_admin_visite_index', [], Response::HTTP_SEE_OTHER);
+    if ($form->isSubmitted() && $form->isValid()) {
+        $photoFile = $form->get('photo')->getData();
+        if ($photoFile) {
+            $newFilename = uniqid().'.'.$photoFile->guessExtension();
+            $photoFile->move(
+    $this->getParameter('kernel.project_dir').DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'uploads'.DIRECTORY_SEPARATOR.'photos',
+    $newFilename
+);
+          
+            $visite->setPhoto($newFilename);
         }
-
-        return $this->render('admin_visite/new.html.twig', [
-            'visite' => $visite,
-            'form' => $form,
-        ]);
+        $entityManager->persist($visite);
+        $entityManager->flush();
+        return $this->redirectToRoute('app_admin_visite_index');
     }
+
+    return $this->render('admin_visite/new.html.twig', [
+        'visite' => $visite,
+        'form' => $form,
+    ]);
+}
 
     #[Route('/{id}', name: 'app_admin_visite_show', methods: ['GET'])]
     public function show(Visite $visite): Response
@@ -51,22 +59,29 @@ final class AdminVisiteController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_admin_visite_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Visite $visite, EntityManagerInterface $entityManager): Response
-    {
-        $form = $this->createForm(VisiteType::class, $visite);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_admin_visite_index', [], Response::HTTP_SEE_OTHER);
+public function edit(Request $request, Visite $visite, EntityManagerInterface $entityManager): Response
+{
+    $form = $this->createForm(VisiteType::class, $visite);
+    $form->handleRequest($request);
+    if ($form->isSubmitted() && $form->isValid()) {
+        $photoFile = $form->get('photo')->getData();
+        if ($photoFile) {
+            $newFilename = uniqid().'.'.$photoFile->guessExtension();
+            $photoFile->move(
+                $this->getParameter('kernel.project_dir').'/public/uploads/photos',
+                $newFilename
+            );
+            $visite->setPhoto($newFilename);
         }
-
-        return $this->render('admin_visite/edit.html.twig', [
-            'visite' => $visite,
-            'form' => $form,
-        ]);
+        $entityManager->flush();
+        return $this->redirectToRoute('app_admin_visite_index', [], Response::HTTP_SEE_OTHER);
     }
+    return $this->render('admin_visite/edit.html.twig', [
+        'visite' => $visite,
+        'form' => $form,
+    ]);
+}
+
 
     #[Route('/{id}', name: 'app_admin_visite_delete', methods: ['POST'])]
     public function delete(Request $request, Visite $visite, EntityManagerInterface $entityManager): Response
