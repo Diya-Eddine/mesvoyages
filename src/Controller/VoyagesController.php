@@ -34,6 +34,22 @@ class VoyagesController extends AbstractController
     }
 
     #[Route('/voyages/recherche/{champ}', name: 'voyages.findallequal')]
+    #[Route('/voyages/recherche/environnement', name: 'voyages.findbyenv')]
+public function findByEnvironnement(Request $request): Response
+{
+    if ($this->isCsrfTokenValid('filtre_environnement', $request->get('_token'))) {
+        $valeur = $request->get("recherche");
+        if ($valeur) {
+            $visites = $this->repository->findByEnvironnement($valeur);
+        } else {
+            $visites = $this->repository->findAllOrderBy('datecreation', 'DESC');
+        }
+        return $this->render("pages/voyages.html.twig", [
+            'visites' => $visites
+        ]);
+    }
+    return $this->redirectToRoute("voyages");
+}
     public function findAllEqual(string $champ, Request $request): Response
     {
         if ($this->isCsrfTokenValid('filtre_' . $champ, $request->get('_token'))) {

@@ -27,6 +27,20 @@
                         </div>
                     </form>
                 </th>
+
+                {# ===== NOUVEAU : colonne Environnements ===== #}
+                <th class="text-left align-top" scope="col">
+                    Environnements
+                    <form class="form-inline mt-1" method="POST" action="{{ path('voyages.findbyenv') }}">
+                        <div class="form-group mr-1 mb-2">
+                            <input type="text" class="sm" name="recherche">
+                            <input type="hidden" name="_token" value="{{ csrf_token('filtre_environnement') }}">
+                            <button type="submit" class="btn btn-primary mb-2 btn-sm">filtrer</button>
+                        </div>
+                    </form>
+                </th>
+                {# ============================================ #}
+
                 <th class="text-right align-top" scope="col">
                     Note
                     <a href="{{ path('voyages.sort', {champ:'note', ordre:'ASC'}) }}" class="btn btn-primary btn-sm active" role="button" aria-pressed="true"><</a>
@@ -50,6 +64,15 @@
                 <td>
                     {{ visite.pays }}
                 </td>
+
+                {# ===== NOUVEAU : affichage environnements ===== #}
+                <td>
+                    {% for i, env in visite.environnements %}
+                        {{ env.nom }}{% if (i + 1) % 3 == 0 %}<br>{% else %} {% endif %}
+                    {% endfor %}
+                </td>
+                {# ============================================== #}
+
                 <td class="text-end">
                     <strong>
                         {% if visite.note < 10 %}
@@ -64,8 +87,11 @@
                 </td>
             </tr>
             {% else %}
-            <tr><td colspan="4">Aucun voyage pour l'instant</td></tr>
-            {% endfor %}
+
+            {# ===== MODIFIÉ : colspan 4 → 5 ===== #}
+            <tr><td colspan="5">Aucun voyage pour l'instant</td></tr>
+
+        {% endfor %}
         </tbody>
     </table>
 {% endblock %}

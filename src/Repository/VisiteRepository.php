@@ -74,4 +74,14 @@ class VisiteRepository extends ServiceEntityRepository
         $this->getEntityManager()->remove($visite);
         $this->getEntityManager()->flush();
     }
+    public function findByEnvironnement(string $env): array
+{
+    return $this->createQueryBuilder('v')
+        ->join('v.environnements', 'e')
+        ->where('e.nom = :env')
+        ->setParameter('env', $env)
+        ->orderBy('v.datecreation', 'DESC')
+        ->getQuery()
+        ->getResult();
+}
 }
