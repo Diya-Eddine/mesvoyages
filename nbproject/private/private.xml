@@ -17,11 +17,15 @@
             <file>file:/D:/code/wamp64/www/mesvoyages/config/packages/twig.yaml</file>
             <file>file:/D:/code/wamp64/www/mesvoyages/templates/pages/_email.html.twig</file>
             <file>file:/D:/code/wamp64/www/mesvoyages/src/Repository/VisiteRepository.php</file>
+            <file>file:/D:/code/wamp64/www/mesvoyages/src/Entity/User.php</file>
             <file>file:/D:/code/wamp64/www/mesvoyages/src/Form/EnvironnementType.php</file>
+            <file>file:/D:/code/wamp64/www/mesvoyages/src/DataFixtures/UserFixture.php</file>
             <file>file:/D:/code/wamp64/www/mesvoyages/templates/admin_visite/new.html.twig</file>
             <file>file:/D:/code/wamp64/www/mesvoyages/templates/admin_environnement/index.html.twig</file>
+            <file>file:/D:/code/wamp64/www/mesvoyages/src/Controller/LoginController.php</file>
             <file>file:/D:/code/wamp64/www/mesvoyages/config/packages/security.yaml</file>
             <file>file:/D:/code/wamp64/www/mesvoyages/src/Form/ContactType.php</file>
+            <file>file:/D:/code/wamp64/www/mesvoyages/templates/login/index.html.twig</file>
             <file>file:/D:/code/wamp64/www/mesvoyages/tests/Repository/VisiteRepositoryTest.php</file>
             <file>file:/D:/code/wamp64/www/mesvoyages/src/Form/VisiteType.php</file>
             <file>file:/D:/code/wamp64/www/mesvoyages/templates/admin_environnement/new.html.twig</file>

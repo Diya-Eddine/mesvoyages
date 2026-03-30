@@ -1,5 +1,6 @@
 <?php
 namespace App\Controller;
+
 use App\Repository\VisiteRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -8,6 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class VoyagesController extends AbstractController
 {
+    private const VOYAGES_TEMPLATE = "pages/voyages.html.twig";
     private $repository;
 
     public function __construct(VisiteRepository $repository)
@@ -19,7 +21,7 @@ class VoyagesController extends AbstractController
     public function index(): Response
     {
         $visites = $this->repository->findAllOrderBy('datecreation', 'DESC');
-        return $this->render("pages/voyages.html.twig", [
+        return $this->render(self::VOYAGES_TEMPLATE, [
             'visites' => $visites
         ]);
     }
@@ -28,34 +30,35 @@ class VoyagesController extends AbstractController
     public function sort(string $champ, string $ordre): Response
     {
         $visites = $this->repository->findAllOrderBy($champ, $ordre);
-        return $this->render("pages/voyages.html.twig", [
+        return $this->render(self::VOYAGES_TEMPLATE, [
             'visites' => $visites
         ]);
     }
 
     #[Route('/voyages/recherche/{champ}', name: 'voyages.findallequal')]
     #[Route('/voyages/recherche/environnement', name: 'voyages.findbyenv')]
-public function findByEnvironnement(Request $request): Response
-{
-    if ($this->isCsrfTokenValid('filtre_environnement', $request->get('_token'))) {
-        $valeur = $request->get("recherche");
-        if ($valeur) {
-            $visites = $this->repository->findByEnvironnement($valeur);
-        } else {
-            $visites = $this->repository->findAllOrderBy('datecreation', 'DESC');
+    public function findByEnvironnement(Request $request): Response
+    {
+        if ($this->isCsrfTokenValid('filtre_environnement', $request->get('_token'))) {
+            $valeur = $request->get("recherche");
+            if ($valeur) {
+                $visites = $this->repository->findByEnvironnement($valeur);
+            } else {
+                $visites = $this->repository->findAllOrderBy('datecreation', 'DESC');
+            }
+            return $this->render(self::VOYAGES_TEMPLATE, [
+                'visites' => $visites
+            ]);
         }
-        return $this->render("pages/voyages.html.twig", [
-            'visites' => $visites
-        ]);
+        return $this->redirectToRoute("voyages");
     }
-    return $this->redirectToRoute("voyages");
-}
+
     public function findAllEqual(string $champ, Request $request): Response
     {
         if ($this->isCsrfTokenValid('filtre_' . $champ, $request->get('_token'))) {
             $valeur = $request->get("recherche");
             $visites = $this->repository->findByEqualValue($champ, $valeur);
-            return $this->render("pages/voyages.html.twig", [
+            return $this->render(self::VOYAGES_TEMPLATE, [
                 'visites' => $visites
             ]);
         }

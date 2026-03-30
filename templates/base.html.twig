@@ -9,11 +9,11 @@
     </head>
     <body>
         <!-- lien déconnexion -->
-        <div class="container text-end">
-            {% if app.user %}
-                <a href="{{ path('logout') }}">se déconnecter</a>
-            {% endif %}
-        </div>
+       <div class="container text-end">
+    {% if app.user %}
+        <a href="{{ path('app_logout') }}">se déconnecter</a>
+    {% endif %}
+</div>
         <!-- entête -->
         {% block top %}{% endblock %}
         <!-- corps -->
